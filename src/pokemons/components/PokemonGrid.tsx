@@ -1,17 +1,16 @@
-import Image from "next/image";
+"use client";
 import { SimplePokemonInterface } from "..";
 import { PokemonCard } from "./PokemonCard";
 
 interface PokemonGridProps {
-    pokemons: SimplePokemonInterface[];
+  pokemons: SimplePokemonInterface[];
 }
 
-export const PokemonGrid = ({pokemons}:PokemonGridProps) => {
+export const PokemonGrid = ({ pokemons }: PokemonGridProps) => {
   return (
     <>
       {pokemons.map((pokemon) => (
-        <PokemonCard key={pokemon.id} pokemon={pokemon}/>
-        
+        <PokemonCard key={pokemon.id} pokemon={pokemon} />
       ))}
     </>
   );

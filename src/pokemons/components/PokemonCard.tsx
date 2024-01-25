@@ -1,8 +1,11 @@
+"use client"
 import Link from "next/link";
 import React from "react";
 import { SimplePokemonInterface } from "..";
 import Image from "next/image";
-import { IoHeartOutline } from "react-icons/io5";
+import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { toggleFavorite } from "@/store/pokemons/pokemonsSlice";
 
 interface PokemonCardProps {
   pokemon: SimplePokemonInterface;
@@ -10,6 +13,14 @@ interface PokemonCardProps {
 
 export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
   const { id, name } = pokemon;
+
+  const isFavorite = useAppSelector((state) => !!state.pokemonsSlice.favorites[id])
+  const dispatch = useAppDispatch()
+
+  const onToggleFavorite = () => {
+    // console.log("click", pokemon)
+    dispatch(toggleFavorite(pokemon))
+  }
 
   return (
     <>
@@ -38,20 +49,32 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
             </div>
           </div>
           <div className="border-b">
-            <Link
-              href="/dashboard/main"
-              className="px-4 py-2 hover:bg-gray-100 flex"
+            <div
+              className="px-4 py-2 hover:bg-gray-100 flex cursor-pointer"
+              onClick={onToggleFavorite}
             >
               <div className="text-red-600">
-                <IoHeartOutline />
+                {
+                  !isFavorite ? <IoHeartOutline /> : <IoHeart />
+                }
+                {/* <IoHeartOutline /> */}
+                {/* <IoHeart /> */}
               </div>
               <div className="pl-3">
                 <p className="text-sm font-medium text-gray-800 leading-none">
-                  No es Favorito
+                  {
+                    !isFavorite ? "No es favorito" : "Es Favorito"
+                  }
                 </p>
-                <p className="text-xs text-gray-500">View your campaigns</p>
+                <p className="text-xs text-gray-500">
+                  {
+                    !isFavorite ? "Agregar a favoritos" : "Quitar de favoritos"
+                  }
+ 
+  
+                </p>
               </div>
-            </Link>
+            </div>
           </div>
         </div>
       </div>
